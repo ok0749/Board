@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>미니 프로젝트</title>
+    <!-- Bootstrap CDN -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    {% include 'include/top_menu.html' %}
+
+    <!-- 게시글 리스트 -->
+    <div class="container" style="margin-top: 100px">
+      <div class="card shadow">
+        <div class="card-body">
+          <h4 class="card-title">{{board_data[1]}}</h4>
+          <table class="table table-hover" id="board_list">
+            <thead>
+              <tr>
+                <th class="text-center d-none d-md-table-cell">글번호</th>
+                <th class="w-50">제목</th>
+                <th class="text-center d-none d-md-table-cell">작성자</th>
+                <th class="text-center d-none d-md-table-cell">작성날짜</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in content_list%}
+              <tr>
+                <td class="text-center d-none d-md-table-cell">{{row[0]}}</td>
+                <td>
+                  <a
+                    href="board_read?content_idx={{row[0]}}&board_idx={{board_idx}}&page={{current_page}}"
+                    >{{row[1]}}</a
+                  >
+                </td>
+                <td class="text-center d-none d-md-table-cell">{{row[2]}}</td>
+                <td class="text-center d-none d-md-table-cell">{{row[3]}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <div class="d-none d-md-block">
+            <!-- 페이징 -->
+            <ul class="pagination justify-content-center">
+              <!-- start_page가 1이면 이전 버튼 안보이게 -->
+              {% if start_page != 1%}
+              <li class="page-item">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page=1"
+                  class="page-link"
+                  >첫 페이지</a
+                >
+              </li>
+              <li class="page-item">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page={{start_page - 1}}"
+                  class="page-link"
+                  >이전</a
+                >
+              </li>
+              {% endif %}
+              <!-- 페이지 버튼 생성 -->
+              {% for page in range(start_page, end_page + 1) %}
+              <!-- 현재 페이지 확인할 수 있게 버튼 양식 다르게  -->
+              {% if current_page == page %}
+              <li class="page-item active">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page={{page}}"
+                  class="page-link"
+                  >{{page}}</a
+                >
+              </li>
+              {% else %}
+              <!-- 현재 페이지가 아닌 경우 버튼 양식 -->
+              <li class="page-item">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page={{page}}"
+                  class="page-link"
+                  >{{page}}</a
+                >
+              </li>
+              {% endif %} {% endfor %}
+              <!-- 마지막 페이지가 아닌 경우 다음 버튼 보이게 -->
+              {% if end_page != page_cnt %}
+              <li class="page-item">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page={{end_page + 1}}"
+                  class="page-link"
+                  >다음</a
+                >
+              </li>
+              <li class="page-item">
+                <a
+                  href="board_main?board_idx={{board_idx}}&page={{page_cnt}}"
+                  class="page-link"
+                  >끝 페이지</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+
+          <div class="d-block d-md-none">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <a href="#" class="page-link">이전</a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link">다음</a>
+              </li>
+            </ul>
+          </div>
+          {% if session.get('user_idx') %}
+          <div class="text-right">
+            <a
+              href="board_write?board_idx={{board_data[0]}}"
+              class="btn btn-primary"
+              >글쓰기</a
+            >
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% include 'include/bottom_info.html' %}
+  </body>
+</html>
