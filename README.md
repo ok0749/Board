@@ -3,7 +3,7 @@
   - Python, Flask, MariaDB, Bootstrap을 사용하여 게시판 웹 구현
 
 ## 작업내용
-  - Flask 프레임워크를 사용해 유저 관련 Api(Login, Join 등), 게시판 관련 Api(Read, Write 등) 구현
+  - Flask 프레임워크를 사용해 유저 관련 API(Login, Join 등), 게시판 관련 API(Read, Write 등) 구현
   - 데이터베이스에 Board_table, Content_table, User_table을 생성한다 Content_table에는 Content_board_idx 항목을 통해 Board_table과 연결하고(콘텐츠가 어떤 게시판에 해당되는지) Content_writer_idx 항목을 통해 User_table과 연결(어떤 유저가 콘텐츠를 작성했는지)
   - Board_main
     - 게시판 별로 최신글 다섯개를 보여주도록 구현
